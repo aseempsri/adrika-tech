@@ -1,0 +1,324 @@
+:root {
+  --ad-navy: #0b1220;
+  --ad-navy-soft: #111b2e;
+  --ad-blue: #1e3a5f;
+  --ad-orange: #ff6a2a;
+  --ad-orange-dark: #e85a1f;
+  --ad-orange-glow: rgba(255, 106, 42, 0.45);
+  --ad-white: #ffffff;
+  --ad-muted: #64748b;
+  --ad-slate: #334155;
+  --ad-border: #e2e8f0;
+  --ad-promo-bg: linear-gradient(90deg, #fff8e7 0%, #fff4d6 50%, #fffbeb 100%);
+  --ad-card: #ffffff;
+  --ad-shadow: 0 14px 40px rgba(15, 23, 42, 0.07);
+  --ad-shadow-lg: 0 28px 70px rgba(15, 23, 42, 0.12);
+  --ad-shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  --ad-radius: 16px;
+  --ad-radius-lg: 24px;
+  --ad-max: 1180px;
+  --ad-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ad-container {
+  width: 100%;
+  max-width: var(--ad-max);
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+.ad-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.72rem 1.35rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: none;
+  cursor: pointer;
+  transition:
+    transform 0.2s var(--ad-ease-out),
+    box-shadow 0.2s var(--ad-ease-out),
+    background 0.2s var(--ad-ease-out),
+    border-color 0.2s var(--ad-ease-out);
+  text-decoration: none;
+}
+
+.ad-btn:focus-visible {
+  outline: 2px solid var(--ad-orange);
+  outline-offset: 3px;
+}
+
+.ad-btn--primary {
+  background: linear-gradient(135deg, var(--ad-orange), var(--ad-orange-dark));
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(255, 106, 42, 0.35);
+}
+
+.ad-btn--primary:hover {
+  transform: translateY(-1px);
+}
+
+.ad-btn--block {
+  width: 100%;
+  justify-content: center;
+  padding-top: 0.85rem;
+  padding-bottom: 0.85rem;
+}
+
+.ad-btn--ghost {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.ad-btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.ad-btn--outline {
+  background: #fff;
+  color: var(--ad-navy);
+  border: 1px solid var(--ad-border);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.06);
+}
+
+.ad-btn--outline:hover {
+  border-color: #cbd5e1;
+}
+
+.ad-promo {
+  background: var(--ad-promo-bg);
+  color: #78350f;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 0.6rem 16px;
+  border-bottom: 1px solid rgba(251, 191, 36, 0.45);
+}
+
+.ad-promo a {
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.ad-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(14px) saturate(1.4);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset, 0 8px 32px rgba(15, 23, 42, 0.04);
+}
+
+.ad-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 76px;
+}
+
+.ad-logo {
+  display: flex;
+  align-items: center;
+}
+
+.ad-logo__img {
+  display: block;
+  height: 44px;
+  width: auto;
+  max-width: min(220px, 48vw);
+  object-fit: contain;
+  object-position: left center;
+}
+
+.ad-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.ad-nav a {
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--ad-slate);
+}
+
+.ad-nav a:hover {
+  color: var(--ad-navy);
+  background: #f1f5f9;
+}
+
+.ad-nav a.is-active {
+  color: var(--ad-orange);
+  background: rgba(255, 106, 42, 0.08);
+}
+
+.ad-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.ad-burger {
+  display: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  border: 1px solid var(--ad-border);
+  background: #fff;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.ad-burger span {
+  width: 20px;
+  height: 2px;
+  background: var(--ad-navy);
+  border-radius: 2px;
+}
+
+@media (max-width: 960px) {
+  /* backdrop-filter creates a containing block for fixed children; without this,
+     the mobile nav panel is sized to the header strip and looks transparent over the hero. */
+  .ad-header {
+    backdrop-filter: none;
+    background: rgba(255, 255, 255, 0.97);
+  }
+
+  .ad-header__inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .ad-nav {
+    position: fixed;
+    top: 132px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 80;
+    background: #fff;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    padding: 0.75rem 1.25rem 2rem;
+    gap: 0.35rem;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    box-shadow: 0 -4px 24px rgba(15, 23, 42, 0.08);
+    border-top: 1px solid rgba(226, 232, 240, 0.95);
+    transform: translateY(-8px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      opacity 0.22s ease,
+      transform 0.26s cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0.22s;
+  }
+
+  .ad-nav.is-open {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .ad-nav a {
+    width: 100%;
+    text-align: center;
+    padding: 0.8rem 1rem;
+    border-radius: 12px;
+    font-size: 1rem;
+  }
+
+  .ad-burger {
+    display: flex;
+    position: relative;
+    z-index: 90;
+  }
+
+  .ad-header__actions .ad-btn {
+    display: none;
+  }
+}
+
+.ad-footer {
+  background: radial-gradient(
+      circle at 10% 0%,
+      rgba(255, 106, 42, 0.12),
+      transparent 45%
+    ),
+    var(--ad-navy);
+  color: #cbd5e1;
+  padding: 3.5rem 0 2rem;
+  margin-top: auto;
+}
+
+.ad-footer a:hover {
+  color: #fff;
+}
+
+.ad-footer__grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 2rem;
+}
+
+@media (max-width: 900px) {
+  .ad-footer__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ad-footer__brand {
+  color: #e2e8f0;
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin-bottom: 0.75rem;
+}
+
+.ad-footer h4 {
+  color: #fff;
+  margin: 0 0 1rem;
+  font-size: 1rem;
+}
+
+.ad-footer ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  font-size: 0.95rem;
+}
+
+.ad-footer__bottom {
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.25);
+  text-align: center;
+  font-size: 0.88rem;
+  color: #94a3b8;
+}
+
+.ad-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.ad-main {
+  flex: 1;
+}

